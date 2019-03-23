@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Login">
+        <menu>
+
+            <item
+                android:id="@+id/miLogin"
+                android:icon="@drawable/login"
+                android:title="LogIn" />
+            <item
+                android:id="@+id/miNuevo"
+                android:icon="@drawable/register"
+                android:title="Darse de alta" />
+
+            <item
+                android:id="@+id/miCerrarSesion"
+                android:icon="@drawable/logout"
+                android:title="Cerrar Sesión" />
+            <item
+                android:id="@+id/miConfiguracion"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Configuración" />
+        </menu>
+    </item>
+
+</menu>
