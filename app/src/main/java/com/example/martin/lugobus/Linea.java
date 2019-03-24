@@ -31,6 +31,11 @@ public class Linea {
         this.numeroParadas = numeroParadas;
     }
 
+    public static Cursor lineasFavoritas() {
+
+        return null;
+    }
+
     public long getId() {
         return id;
     }

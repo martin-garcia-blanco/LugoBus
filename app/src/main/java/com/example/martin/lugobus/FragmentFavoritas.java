@@ -1,12 +1,17 @@
 package com.example.martin.lugobus;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 
 /**
@@ -28,6 +33,10 @@ public class FragmentFavoritas extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private TextView tvFavoritasParada;
+    private TextView tvFavoritasLineas;
+    private int PARADAS_LINEAS=0;
+    private ListView lvFavoritas;
 
     public FragmentFavoritas() {
         // Required empty public constructor
@@ -64,8 +73,81 @@ public class FragmentFavoritas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favoritas, container, false);
+        View view= inflater.inflate(R.layout.fragment_favoritas, container, false);
+
+        lvFavoritas=(ListView) view.findViewById(R.id.lvFavoritas);
+
+        final Cursor c = Parada.paradasFavoritas();
+        encherLvParadas(c);
+
+        tvFavoritasParada=(TextView)view.findViewById(R.id.tvFavoritasParada);
+        tvFavoritasLineas=(TextView)view.findViewById(R.id.tvFavoritasLineas);
+
+        tvFavoritasParada.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                tvFavoritasParada.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tvFavoritasLineas.setTextColor(0xff000000);
+                tvFavoritasParada.setTextSize(30);
+                tvFavoritasLineas.setTextSize(20);
+                tvFavoritasParada.setTypeface(null, Typeface.BOLD);
+                tvFavoritasLineas.setTypeface(null, Typeface.NORMAL);
+
+
+
+
+                PARADAS_LINEAS=0;
+                Cursor c = Parada.paradasFavoritas();
+
+                encherLvParadas(c);
+            }
+        });
+
+
+        tvFavoritasLineas.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                tvFavoritasLineas.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tvFavoritasParada.setTextColor(0xff000000);
+                tvFavoritasLineas.setTextSize(30);
+                tvFavoritasParada.setTextSize(20);
+                tvFavoritasParada.setTypeface(null, Typeface.NORMAL);
+                tvFavoritasLineas.setTypeface(null, Typeface.BOLD);
+
+
+                PARADAS_LINEAS=0;
+                Cursor c = Linea.lineasFavoritas();
+                encherLvParadas(c);
+            }
+        });
+
+
+        return view;
     }
+
+
+    private void encherLvParadas(Cursor c) {
+
+        //Antes de encher o lvAlumnos co novo cursor, pechamos o cursor co que poidera estar xa cheo
+        //if(lvParadas.getAdapter() != null && ((SimpleCursorAdapter) lvParadas.getAdapter()).getCursor() != null) {
+        //  ((SimpleCursorAdapter) lvParadas.getAdapter()).getCursor().close();
+        //}
+
+        if (c!=null && c.getCount() > 0) {
+            String[] from = new String[]{"_id", "nombre_parada", "lineasCoincidentes"};
+            int[] to = new int[]{R.id.tvItemNumeroParada, R.id.tvItemNomeParada,R.id.tvItemParadasCoincidentes};
+            //System.out.println("********************************************************");
+            // System.out.println((c.getString(c.getColumnIndex("lineasCoincidentes"))).toString());
+            SimpleCursorAdapter aca = new SimpleCursorAdapter(getContext(), R.layout.item_lv_paradas, c, from, to, 0);
+            lvFavoritas.setAdapter(aca);
+        }
+
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

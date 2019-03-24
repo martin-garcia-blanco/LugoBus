@@ -101,8 +101,24 @@ public class Parada {
 
     public static Cursor paradasFavoritas(){
         return MainActivity.getDb().query("paradaFavorita", columnas, null, null, null, null, null);
-
     }
+
+    public static Parada buscarParadaFavoritaId(long idParada){
+        Parada parada = null;
+
+        Cursor c = MainActivity.getDb().query("paradaFavorita", columnas, "_id=?", new String[]{String.valueOf(idParada)}, null, null, null);
+        if (c.moveToFirst()) {
+            long id = c.getLong(0);
+            String nombre = c.getString(1);
+            String calle = c.getString(2);
+
+
+            parada = new Parada(id, nombre, calle,null);
+        }
+
+        return parada;
+    }
+
 
     public static Cursor paradasRecientes(){
         return MainActivity.getDb().query("paradaReciente", columnas, null, null, null, null, null);
@@ -127,9 +143,9 @@ public class Parada {
         return parada;
     }
 
-    public static void borrarParadasRecientes(){
-        MainActivity.getDb().delete("paradaReciente", null, null);
-    }
+    // public static void borrarParadasRecientes(){
+    //    MainActivity.getDb().delete("paradaReciente", null, null);
+    //}
 
 
     public void gardarParadaReciente(){
@@ -143,4 +159,14 @@ public class Parada {
         MainActivity.getDb().insert("paradaReciente", null, cv);
     }
 
+    public void gardarParadaFavorita() {
+        ContentValues cv = new ContentValues();
+
+        cv.put(columnas[0], this.id_parada);
+        cv.put(columnas[1], this.nombre_parada);
+        cv.put(columnas[2], this.calle);
+        cv.put(columnas[3], this.lineasCoincidentes);
+
+        MainActivity.getDb().insert("paradaFavorita", null, cv);
+    }
 }

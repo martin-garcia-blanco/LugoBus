@@ -48,6 +48,7 @@ public class FragmentDescripcionLinea extends Fragment implements TarefaDescarga
     private TextView tv_guion;
     private TextView tv_descripcion_boton_ida;
     private TextView tv_descripcion_boton_vuelta;
+    private Parada paradaFavorita;
 
 
     public FragmentDescripcionLinea() {
@@ -77,6 +78,27 @@ public class FragmentDescripcionLinea extends Fragment implements TarefaDescarga
         tv_descripcion_inicio.setText(linea.getInicio());
         tv_descripcion_fin.setText(linea.getFin());
 
+
+        lv_linea_paradas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                System.out.println("ID: "+id);
+                paradaFavorita=Parada.buscarParadaFavoritaId(id);
+
+                if((paradaFavorita)!=null){
+                    System.out.println("chego neno");
+                    Toast.makeText(getContext(),"Parada ya agregada a favoritas",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    System.out.println("Entra a gardar");
+                    paradaFavorita= (Parada) lv_linea_paradas.getItemAtPosition(position);
+                    paradaFavorita.gardarParadaFavorita();
+                }
+
+                return true;
+            }
+        });
+
         tv_descripcion_boton_ida=(TextView)view.findViewById(R.id.tv_descripcion_boton_ida);
         tv_descripcion_boton_vuelta=(TextView)view.findViewById(R.id.tv_descripcion_boton_vuelta);
 
@@ -105,7 +127,6 @@ public class FragmentDescripcionLinea extends Fragment implements TarefaDescarga
 
             @Override
             public void onClick(View v) {
-                System.out.println("Fin-inicio");
 
                 tv_descripcion_boton_vuelta.setTextColor(getResources().getColor(R.color.colorPrimary));
                 tv_descripcion_boton_ida.setTextColor(0xff000000);
@@ -170,9 +191,7 @@ public class FragmentDescripcionLinea extends Fragment implements TarefaDescarga
         Element raiz = resultado.getDocumentElement();
         NodeList nl = raiz.getElementsByTagName("parada");
         paradas = new Parada[nl.getLength()];
-        System.out.println("Numero elementos"+nl.getLength());
         for (int i = 0; i < nl.getLength(); i++) {
-            System.out.println("chego");
 
             Element e = (Element) nl.item(i);
             //extaemos valores del xml
@@ -183,10 +202,8 @@ public class FragmentDescripcionLinea extends Fragment implements TarefaDescarga
 
 
 
-            System.out.println("id:  " + id + "****** nombre: " + nombre + " ****** Calle: " + calle+" LineasCoincidentes: "+lineas);
             Parada parada = new Parada(Long.parseLong(id), nombre, calle,lineas);
             paradas[i] = parada;
-            System.out.println("chego");
         }
     }
 
