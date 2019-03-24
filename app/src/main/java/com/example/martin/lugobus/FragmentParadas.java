@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -42,6 +43,7 @@ public class FragmentParadas extends Fragment implements TarefaDescargaXML.Clien
     private OnFragmentInteractionListener mListener;
     private EditText etBusquedaParada;
     private ListView lvParadas;
+    private Button btBorrarRecientes;
 
     public FragmentParadas() {
         // Required empty public constructor
@@ -88,6 +90,19 @@ public class FragmentParadas extends Fragment implements TarefaDescargaXML.Clien
 
         Cursor c = Parada.paradasRecientes();
         encherLvParadas(c);
+
+        btBorrarRecientes=(Button)view.findViewById(R.id.btBorrarRecientes);
+
+        btBorrarRecientes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                MainActivity.getDb().delete("paradaReciente",null,null);
+                //Con este setAdapter vaciamos el listView
+                lvParadas.setAdapter(null);
+            }
+        });
 
         btBuscar.setOnClickListener(new View.OnClickListener() {
 

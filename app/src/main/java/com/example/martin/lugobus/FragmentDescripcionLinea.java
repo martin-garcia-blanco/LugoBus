@@ -191,15 +191,6 @@ public class FragmentDescripcionLinea extends Fragment implements TarefaDescarga
     }
 
 
-//    public void paradasOrdenInicioFinClick(View view) {
-//
-//    }
-
-
-    //public void paradasOrdenFinInicioClick(View view) {
-      //  ORDEN_INICIO_FIN=0;
-       // encherLvParadas(1);
-    //}
 
 
     // TODO: Rename method, update argument and hook method into UI event

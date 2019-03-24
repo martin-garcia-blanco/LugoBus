@@ -1,6 +1,7 @@
 package com.example.martin.lugobus;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,10 +45,12 @@ public class ArrayAdapterParada extends ArrayAdapter {
             TextView tvLineaCoincidente = new TextView(getContext());
 
             tvLineaCoincidente.setText(paradas[position].getLineasCoincidentes());
-            tvLineaCoincidente.setBackgroundColor(tvLineaCoincidente.getResources().getColor(R.color.colorAccent));
-            tvLineaCoincidente.setWidth(50);
-            tvLineaCoincidente.setHeight(50);
-            llLineasCoincidentes.addView(tvLineaCoincidente);
+            tvLineaCoincidente.setBackgroundColor(tvLineaCoincidente.getResources().getColor(R.color.colorPrimary));
+            tvLineaCoincidente.setPadding(10,0,10,0);
+            tvLineaCoincidente.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            tvLineaCoincidente.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //llLineasCoincidentes.addView(tvLineaCoincidente);
+            llLineasCoincidentes.addView(tvLineaCoincidente, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
         if(llLineasCoincidentes!=null){
